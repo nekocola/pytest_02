@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户管理</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+  const host = 'http://127.0.0.1:12345/'
+  $(function() {
+            $.ajax({url: host + 'getuser'}).done(function(data) {
+                data.forEach(function(user) {
+                    console.log(user);
+                    $('#userTable').append('<tr><td>' + user[0] + '</td><td>' + user[1] + '</td><td>' + user[2]); 
+                });
+            });
+        });
+   function adduser(){
+    name = $("#name1").val();
+    age = $("#age1").val();
+    let data = {
+        'name':name,
+        'age':age 
+    }
+    console.log(data);
+    $.ajax({
+      type: 'POST',
+      url: host + 'add_user',
+      data: data,
+      dataType: 'json',
+   })
+   };
+
+   function updateuser(){
+    name = $("#name2").val();
+    age = $("#age2").val();
+    id = $("#id2").val();
+    let data = {
+        'name':name,
+        'age':age,
+        'id':id
+    }
+    console.log(data);
+    $.ajax({
+      type: 'POST',
+      url: host + 'update_user',
+      data: data,
+      dataType: 'json',
+   })
+   };
+
+   function deluser(){
+    id = $("#id3").val();
+    let data = {
+        'id':id
+    }
+    console.log(data);
+    $.ajax({
+      type: 'POST',
+      url: host + 'delete_user',
+      data: data,
+      dataType: 'json',
+   })
+   };
+
+    </script>
+</head>
+<body>
+    <h1>test</h1>
+    <form id="userForm">
+        <label for="name">name:</label><br>
+        <input type="text" id="name1" name="name">
+        <br>
+        <label for="age">age:</label><br>
+        <input type="number" id="age1" name="age">
+        <br>
+        <button onclick="adduser();">add</button>
+    </form>
+    <form id="userForm1">
+        <label for="id">id:</label><br>
+        <input type="text" id="id2" name="id">
+        <br>
+        <label for="name">name:</label><br>
+        <input type="text" id="name2" name="name">
+        <br>
+        <label for="age">age:</label><br>
+        <input type="number" id="age2" name="age">
+        <br>
+        <button onclick="updateuser();">update</button>
+    </form>
+    <form id="userForm2">
+        <label for="id">id:</label><br>
+        <input type="text" id="id3" name="id">
+        <br>
+        <button onclick="deluser();">del</button>
+    </form>
+    <hr>
+    <table id="userTable" border="0">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>name</th>
+                <th>age</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    
+</body>
+</html>
